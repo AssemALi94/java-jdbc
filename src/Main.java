@@ -1,27 +1,25 @@
-import com.jdbc.model.Role;
-import com.jdbc.utility.DBConnection;
+import com.jdbc.dao.UserDao;
+import com.jdbc.model.User;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
 
-        try {
-            PreparedStatement pre = DBConnection.getConnection().prepareStatement("Select * from User");
-            System.out.println(DBConnection.getConnection().hashCode());
-            System.out.println(DBConnection.getConnection().hashCode());
+        UserDao userDao = new UserDao();
 
-            ResultSet res = pre.executeQuery();
-            while (res.next()) {
-                System.out.println(res.getString("id") + res.getString("name"));
-            }
 
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+
+        List <User> users = userDao.getAll();
+        for ( User uu :
+             users) {
+            System.out.println(uu.getId());
+            System.out.println(uu.getFirstName());
+            System.out.println(uu.getLastName());
+            System.out.println(uu.getEmail());
+            System.out.println(uu.getPassword());
+            System.out.println(uu.getRoleId());
+
         }
-
-
     }
 }
