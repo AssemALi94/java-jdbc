@@ -1,3 +1,4 @@
+import com.jdbc.model.Role;
 import com.jdbc.utility.DBConnection;
 
 import java.sql.PreparedStatement;
