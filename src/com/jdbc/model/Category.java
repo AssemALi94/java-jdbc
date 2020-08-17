@@ -4,9 +4,9 @@ package com.jdbc.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-@AllArgsConstructor
+//@AllArgsConstructor
 @Data
 public class Category {
-    private String id;
-    private String roleCategory;
+    private long id;
+    private String categoryName;
 }

@@ -3,11 +3,12 @@ package com.jdbc.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-@AllArgsConstructor
+//@AllArgsConstructor
 @Data
 public class Borrow {
-    private String idUser;
-    private String idBook;
-    private String status;
+    private long id;
+    private String userId;
+    private String bookId;
+    private String bStatus;
 
 }

@@ -3,9 +3,9 @@ package com.jdbc.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-@AllArgsConstructor
+//@AllArgsConstructor
 @Data
 public class Role {
-    private String id;
+    private long id;
     private String roleName;
 }
