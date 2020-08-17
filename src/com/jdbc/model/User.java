@@ -2,10 +2,8 @@ package com.jdbc.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
-@NoArgsConstructor
+//@AllArgsConstructor
 @Data
 public class User {
     private long id;
@@ -13,5 +11,7 @@ public class User {
     private String lastName;
     private String email;
     private String password;
-    private long roleId;
+    private String roleId;
+
+
 }

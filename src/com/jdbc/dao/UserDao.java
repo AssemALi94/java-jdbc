@@ -20,7 +20,6 @@ public class UserDao implements Dao<User> {
     private static final String INSERT = "insert into " + USER_TABLE_NAME + " (first_name, last_name, email, password, role_id) values(?,?,?,?,?)";
     private static final String UPDATE = "update " + USER_TABLE_NAME + " set first_name=?, last_name=?, email=?, password=?, role_id=? where( id = ?)";
     private static final String DELETE = "delete from " + USER_TABLE_NAME + " where id=?";
-    ;
 
     public UserDao() {
 
@@ -33,11 +32,13 @@ public class UserDao implements Dao<User> {
             statement.setLong(1, id);
             ResultSet res = statement.executeQuery();
 
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return Optional.empty();
     }
+
 
     @Override
     public List<User> getAll() {
@@ -55,7 +56,7 @@ public class UserDao implements Dao<User> {
                 user.setLastName(res.getString("last_name"));
                 user.setEmail(res.getString("email"));
                 user.setPassword(res.getString("password"));
-                user.setRoleId(res.getLong("role_id"));
+                user.setRoleId(res.getString("role_id"));
                 users.add(user);
             }
 
@@ -73,7 +74,7 @@ public class UserDao implements Dao<User> {
             statement.setString(2, user.getLastName());
             statement.setString(3, user.getEmail());
             statement.setString(4, user.getPassword());
-            statement.setLong(5, user.getRoleId());
+            statement.setString(5, user.getRoleId());
             int res = statement.executeUpdate();
             return res;
 
@@ -91,7 +92,7 @@ public class UserDao implements Dao<User> {
             statement.setString(2, user.getLastName());
             statement.setString(3, user.getEmail());
             statement.setString(4, user.getPassword());
-            statement.setLong(5, user.getRoleId());
+            statement.setString(5, user.getRoleId());
             statement.setLong(6, user.getId());
             int res = statement.executeUpdate();
             return res;
