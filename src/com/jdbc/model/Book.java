@@ -10,5 +10,5 @@ public class Book {
     private long id;
     private String bookName;
     private String authorName;
-    private String idCategory;
+    private Long categoryId;
 }

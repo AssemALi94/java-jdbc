@@ -45,7 +45,7 @@ public class BookDao implements Dao<Book> {
                 book.setId(res.getLong("id"));
                 book.setBookName(res.getString("name"));
                 book.setAuthorName(res.getString("author_name"));
-                book.setIdCategory(res.getString("category_id"));
+                book.setCategoryId(res.getLong("category_id"));
                 books.add(book);
             }
 
@@ -61,7 +61,7 @@ public class BookDao implements Dao<Book> {
             statement = DBConnection.getConnection().prepareStatement(INSERT);
             statement.setString(1, book.getBookName());
             statement.setString(2, book.getAuthorName());
-            statement.setString(3, book.getIdCategory());
+            statement.setLong(3, book.getCategoryId());
             int res = statement.executeUpdate();
             return res;
 
@@ -79,7 +79,7 @@ public class BookDao implements Dao<Book> {
             statement = DBConnection.getConnection().prepareStatement(UPDATE);
             statement.setString(1, book.getBookName());
             statement.setString(2, book.getAuthorName());
-            statement.setString(3, book.getIdCategory());
+            statement.setLong(3, book.getCategoryId());
             statement.setLong(4, book.getId());
 
             int res = statement.executeUpdate();
