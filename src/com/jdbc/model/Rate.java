@@ -8,8 +8,8 @@ import lombok.Data;
 @Data
 public class Rate {
     private long id;
-    private String userId;
-    private String bookId;
-    private String rate;
+    private long userId;
+    private long bookId;
+    private String score;
 
 }

@@ -18,8 +18,8 @@ public class BookDao implements Dao<Book> {
     private static final String BOOK_TABLE_NAME = TableNames.BOOK.name();
     private static final String FIND_BY_ID = "select * from " + BOOK_TABLE_NAME + " where id = ?";
     private static final String FIND_ALL = "select * from " + BOOK_TABLE_NAME;
-    private static final String INSERT = "insert into " + BOOK_TABLE_NAME + " (name, author_name,category_id,book_status) values(?,?,?,?)";
-    private static final String UPDATE = "update " + BOOK_TABLE_NAME + " set name=?, author_name=?, category_id=?, book_status=? where( id = ?)";
+    private static final String INSERT = "insert into " + BOOK_TABLE_NAME + " (title,author) values(?,?)";
+    private static final String UPDATE = "update " + BOOK_TABLE_NAME + " set title=?, author=? where( id = ?)";
     private static final String DELETE = "delete from " + BOOK_TABLE_NAME + " where id=?";
 
     @Override
@@ -43,9 +43,8 @@ public class BookDao implements Dao<Book> {
             while (res.next()) {
                 Book book = new Book();
                 book.setId(res.getLong("id"));
-                book.setBookName(res.getString("name"));
-                book.setAuthorName(res.getString("author_name"));
-                book.setCategoryId(res.getLong("category_id"));
+                book.setTitle(res.getString("title"));
+                book.setAuthor(res.getString("author"));
                 books.add(book);
             }
 
@@ -59,9 +58,9 @@ public class BookDao implements Dao<Book> {
     public int save(Book book) {
         try {
             statement = DBConnection.getConnection().prepareStatement(INSERT);
-            statement.setString(1, book.getBookName());
-            statement.setString(2, book.getAuthorName());
-            statement.setLong(3, book.getCategoryId());
+            statement.setString(1, book.getTitle());
+            statement.setString(2, book.getAuthor());
+
             int res = statement.executeUpdate();
             return res;
 
@@ -77,10 +76,9 @@ public class BookDao implements Dao<Book> {
     public int update(Book book, long id) {
         try {
             statement = DBConnection.getConnection().prepareStatement(UPDATE);
-            statement.setString(1, book.getBookName());
-            statement.setString(2, book.getAuthorName());
-            statement.setLong(3, book.getCategoryId());
-            statement.setLong(4, book.getId());
+            statement.setString(1, book.getTitle());
+            statement.setString(2, book.getAuthor());
+            statement.setLong(3, book.getId());
 
             int res = statement.executeUpdate();
             return res;

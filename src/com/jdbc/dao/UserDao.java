@@ -56,7 +56,7 @@ public class UserDao implements Dao<User> {
                 user.setLastName(res.getString("last_name"));
                 user.setEmail(res.getString("email"));
                 user.setPassword(res.getString("password"));
-                user.setRoleId(res.getString("role_id"));
+                user.setRoleId(res.getLong("role_id"));
                 users.add(user);
             }
 
@@ -74,7 +74,7 @@ public class UserDao implements Dao<User> {
             statement.setString(2, user.getLastName());
             statement.setString(3, user.getEmail());
             statement.setString(4, user.getPassword());
-            statement.setString(5, user.getRoleId());
+            statement.setLong(5, user.getRoleId());
             int res = statement.executeUpdate();
             return res;
 
@@ -92,7 +92,7 @@ public class UserDao implements Dao<User> {
             statement.setString(2, user.getLastName());
             statement.setString(3, user.getEmail());
             statement.setString(4, user.getPassword());
-            statement.setString(5, user.getRoleId());
+            statement.setLong(5, user.getRoleId());
             statement.setLong(6, user.getId());
             int res = statement.executeUpdate();
             return res;

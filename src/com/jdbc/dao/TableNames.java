@@ -2,8 +2,7 @@ package com.jdbc.dao;
 
 public enum TableNames {
     BOOK,
-    BORROW,
-    CATEGORY,
+    LENDING,
     RATE,
     ROLE,
     USER

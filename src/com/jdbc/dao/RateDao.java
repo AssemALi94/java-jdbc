@@ -16,8 +16,8 @@ public class RateDao implements Dao<Rate> {
     private static final String RATE_TABLE_NAME = TableNames.RATE.name();
     private static final String FIND_BY_ID = "select * from " + RATE_TABLE_NAME + " where id = ?";
     private static final String FIND_ALL = "select * from " + RATE_TABLE_NAME;
-    private static final String INSERT = "insert into " + RATE_TABLE_NAME + " (user_id, book_id,rate) values(?,?,?)";
-    private static final String UPDATE = "update " + RATE_TABLE_NAME + " set user_id=?,book_id =?,rate=? where( id = ?)";
+    private static final String INSERT = "insert into " + RATE_TABLE_NAME + " (user_id, book_id,score) values(?,?,?)";
+    private static final String UPDATE = "update " + RATE_TABLE_NAME + " set user_id=?,book_id =?,score=? where( id = ?)";
     private static final String DELETE = "delete from " + RATE_TABLE_NAME + " where id = ?";
 
     @Override
@@ -41,9 +41,9 @@ public class RateDao implements Dao<Rate> {
             while (res.next()) {
                 Rate rate = new Rate();
                 rate.setId(res.getLong("id"));
-                rate.setUserId(res.getString("user_id"));
-                rate.setBookId(res.getString("book_id"));
-                rate.setRate(res.getString("rate"));
+                rate.setUserId(res.getLong("user_id"));
+                rate.setBookId(res.getLong("book_id"));
+                rate.setScore(res.getString("rate"));
 
                 rates.add(rate);
             }
@@ -57,9 +57,9 @@ public class RateDao implements Dao<Rate> {
     public int save(Rate rate) {
         try {
             statement = DBConnection.getConnection().prepareStatement(INSERT);
-            statement.setString(1, rate.getUserId());
-            statement.setString(1, rate.getBookId());
-            statement.setString(1, rate.getRate());
+            statement.setLong(1, rate.getUserId());
+            statement.setLong(2, rate.getBookId());
+            statement.setString(3, rate.getScore());
             int res = statement.executeUpdate();
             return res;
         } catch (SQLException e) {
@@ -74,9 +74,10 @@ public class RateDao implements Dao<Rate> {
     public int update(Rate rate, long id) {
         try {
             statement = DBConnection.getConnection().prepareStatement(UPDATE);
-            statement.setString(1, rate.getUserId());
-            statement.setString(1, rate.getBookId());
-            statement.setLong(2, rate.getId());
+            statement.setLong(1, rate.getUserId());
+            statement.setLong(2, rate.getBookId());
+            statement.setString(3, rate.getScore());
+            statement.setLong(4, rate.getId());
 
             int res = statement.executeUpdate();
             return res;
