@@ -12,6 +12,6 @@ public class Lending {
     private long staffId;
     private String lendDate;
     private String returnDate;
-    private String bookStatus;
+    private String status;
 
 }

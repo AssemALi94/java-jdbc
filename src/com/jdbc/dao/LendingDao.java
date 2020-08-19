@@ -16,8 +16,8 @@ public class LendingDao implements Dao<Lending> {
     private static final String LENDING_TABLE_NAME = TableNames.LENDING.name();
     private static final String FIND_BY_ID = "select * from " + LENDING_TABLE_NAME + " where id = ?";
     private static final String FIND_ALL = "select * from " + LENDING_TABLE_NAME;
-    private static final String INSERT = "insert into " + LENDING_TABLE_NAME + " (book_id, borrower_id, staff_id, lend_date, return_date, book_status) values(?,?,?,?,?,?)";
-    private static final String UPDATE = "update " + LENDING_TABLE_NAME + " set book_id=?, borrower_id=?, staff_id=?, lend_date=?, return_date=?, book_status=? where( id = ?)";
+    private static final String INSERT = "insert into " + LENDING_TABLE_NAME + " (book_id, borrower_id, staff_id, lend_date, return_date, status) values(?,?,?,?,?,?)";
+    private static final String UPDATE = "update " + LENDING_TABLE_NAME + " set book_id=?, borrower_id=?, staff_id=?, lend_date=?, return_date=?, status=? where( id = ?)";
     private static final String DELETE = "delete from " + LENDING_TABLE_NAME + " where id = ?";
 
     @Override
@@ -46,7 +46,7 @@ public class LendingDao implements Dao<Lending> {
                 lend.setStaffId(res.getLong("staff_id"));
                 lend.setLendDate(res.getString("lend_date"));
                 lend.setReturnDate(res.getString("return_id"));
-                lend.setBookStatus(res.getString("book_status"));
+                lend.setStatus(res.getString("book_status"));
 
                 lending.add(lend);
             }
@@ -65,7 +65,7 @@ public class LendingDao implements Dao<Lending> {
             statement.setLong(3, lending.getStaffId());
             statement.setString(4, lending.getLendDate());
             statement.setString(5, lending.getReturnDate());
-            statement.setString(6, lending.getBookStatus());
+            statement.setString(6, lending.getStatus());
 
             int res = statement.executeUpdate();
             return res;
@@ -85,7 +85,7 @@ public class LendingDao implements Dao<Lending> {
             statement.setLong(3, lending.getStaffId());
             statement.setString(4, lending.getLendDate());
             statement.setString(5, lending.getReturnDate());
-            statement.setString(6, lending.getBookStatus());
+            statement.setString(6, lending.getStatus());
             statement.setLong(7, lending.getId());
 
             int res = statement.executeUpdate();
