@@ -2,6 +2,7 @@ package com.jdbc.dao;
 
 import com.jdbc.model.Role;
 import com.jdbc.utility.DBConnection;
+import lombok.Builder;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,10 +11,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+
+@Builder
 public class RoleDao implements Dao<Role> {
     private PreparedStatement statement;
 
-    private static final String ROLE_TABLE_NAME = TableNames.ROLE.name();
+    private static final String ROLE_TABLE_NAME = TableNames.ROLES.name();
     private static final String FIND_BY_ID = "select * from " + ROLE_TABLE_NAME + " where id = ?";
     private static final String FIND_ALL = "select * from " + ROLE_TABLE_NAME;
     private static final String INSERT = "insert into " + ROLE_TABLE_NAME + " (role) values(?)";
@@ -22,15 +25,23 @@ public class RoleDao implements Dao<Role> {
 
     @Override
     public Optional<Role> get(long id) {
+        Role role = Role.builder().build();
+
         try {
             statement = DBConnection.getConnection().prepareStatement(FIND_BY_ID);
             statement.setLong(1, id);
             ResultSet res = statement.executeQuery();
+            while (res.next()) {
+                role.setRole(res.getString("role"));
+                role.setId(id);
+
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return Optional.empty();
+        return Optional.of(role);
     }
+
 
     @Override
     public List<Role> getAll() {
@@ -39,9 +50,9 @@ public class RoleDao implements Dao<Role> {
             statement = DBConnection.getConnection().prepareStatement(FIND_ALL);
             ResultSet res = statement.executeQuery();
             while (res.next()) {
-                Role role = new Role();
+                Role role = Role.builder().build();
                 role.setId(res.getLong("id"));
-                role.setRole(res.getString("role_name"));
+                role.setRole(res.getString("role"));
                 roles.add(role);
             }
         } catch (SQLException e) {
@@ -70,7 +81,7 @@ public class RoleDao implements Dao<Role> {
         try {
             statement = DBConnection.getConnection().prepareStatement(UPDATE);
             statement.setString(1, role.getRole());
-            statement.setLong(2, role.getId());
+            statement.setLong(2, id);
 
             int res = statement.executeUpdate();
             return res;

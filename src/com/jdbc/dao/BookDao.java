@@ -1,7 +1,7 @@
 package com.jdbc.dao;
-
-import com.jdbc.model.Book;
+import com.jdbc.Book;
 import com.jdbc.utility.DBConnection;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 import java.sql.PreparedStatement;
@@ -11,11 +11,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@NoArgsConstructor
+@Builder
 public class BookDao implements Dao<Book> {
     private PreparedStatement statement;
 
-    private static final String BOOK_TABLE_NAME = TableNames.BOOK.name();
+    private static final String BOOK_TABLE_NAME = TableNames.BOOKS.name();
     private static final String FIND_BY_ID = "select * from " + BOOK_TABLE_NAME + " where id = ?";
     private static final String FIND_ALL = "select * from " + BOOK_TABLE_NAME;
     private static final String INSERT = "insert into " + BOOK_TABLE_NAME + " (title,author) values(?,?)";
@@ -41,7 +41,7 @@ public class BookDao implements Dao<Book> {
             statement = DBConnection.getConnection().prepareStatement(FIND_ALL);
             ResultSet res = statement.executeQuery();
             while (res.next()) {
-                Book book = new Book();
+                Book book = Book.builder().build();
                 book.setId(res.getLong("id"));
                 book.setTitle(res.getString("title"));
                 book.setAuthor(res.getString("author"));

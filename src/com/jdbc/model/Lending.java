@@ -1,17 +1,20 @@
 package com.jdbc.model;
 
-import lombok.AllArgsConstructor;
+
+import lombok.Builder;
 import lombok.Data;
 
-//@AllArgsConstructor
+@Builder
 @Data
 public class Lending {
+
     private long id;
     private long bookId;
     private long borrowerId;
     private long staffId;
     private String lendDate;
     private String returnDate;
-    private String status;
+    private boolean bookStatus;
+
 
 }

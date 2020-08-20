@@ -1,14 +1,13 @@
 package com.jdbc.model;
 
 
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
-//@AllArgsConstructor
+@Builder
 @Data
 public class Book {
     private long id;
     private String title;
     private String author;
-
 }

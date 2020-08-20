@@ -2,9 +2,10 @@ package com.jdbc.model;
 
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
-//@AllArgsConstructor
+@Builder
 @Data
 public class Rate {
     private long id;

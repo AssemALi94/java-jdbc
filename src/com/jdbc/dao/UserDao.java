@@ -2,6 +2,7 @@ package com.jdbc.dao;
 
 import com.jdbc.model.User;
 import com.jdbc.utility.DBConnection;
+import lombok.Builder;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,33 +11,41 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Builder
 public class UserDao implements Dao<User> {
 
     private PreparedStatement statement;
 
-    private static final String USER_TABLE_NAME = TableNames.USER.name();
+    private static final String USER_TABLE_NAME = TableNames.USERS.name();
     private static final String FIND_BY_ID = "select * from " + USER_TABLE_NAME + " where id = ?";
     private static final String FIND_ALL = "select * from " + USER_TABLE_NAME;
     private static final String INSERT = "insert into " + USER_TABLE_NAME + " (first_name, last_name, email, password, role_id) values(?,?,?,?,?)";
     private static final String UPDATE = "update " + USER_TABLE_NAME + " set first_name=?, last_name=?, email=?, password=?, role_id=? where( id = ?)";
     private static final String DELETE = "delete from " + USER_TABLE_NAME + " where id=?";
 
-    public UserDao() {
-
-    }
 
     @Override
     public Optional<User> get(long id) {
+        User user = User.builder().build();
+
         try {
             statement = DBConnection.getConnection().prepareStatement(FIND_BY_ID);
             statement.setLong(1, id);
             ResultSet res = statement.executeQuery();
+            while (res.next()) {
+                user.setId(id);
+                user.setFirstName(res.getString("first_name"));
+                user.setLastName(res.getString("last_name"));
+                user.setEmail(res.getString("email"));
+                user.setPassword(res.getString("password"));
+                user.setRoleId(res.getLong("role_id"));
 
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return Optional.empty();
+        return Optional.ofNullable(user);
     }
 
 
@@ -50,7 +59,7 @@ public class UserDao implements Dao<User> {
 
 
             while (res.next()) {
-                User user = new User();
+                User user = User.builder().build();
                 user.setId(res.getLong("id"));
                 user.setFirstName(res.getString("first_name"));
                 user.setLastName(res.getString("last_name"));
@@ -93,7 +102,7 @@ public class UserDao implements Dao<User> {
             statement.setString(3, user.getEmail());
             statement.setString(4, user.getPassword());
             statement.setLong(5, user.getRoleId());
-            statement.setLong(6, user.getId());
+            statement.setLong(6, id);
             int res = statement.executeUpdate();
             return res;
         } catch (SQLException e) {

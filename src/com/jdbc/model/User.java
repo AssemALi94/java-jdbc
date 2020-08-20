@@ -5,11 +5,11 @@ import com.jdbc.annotation.JsonElement;
 import com.jdbc.annotation.Init;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
-@NoArgsConstructor
+@Builder
 @Data
 @JsonSerializable
 public class User {
@@ -25,7 +25,7 @@ public class User {
     private long roleId;
 
     @Init
-    private  void initNames(){
+    private void initNames() {
 
     }
 }

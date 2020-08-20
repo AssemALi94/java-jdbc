@@ -13,7 +13,7 @@ import java.util.Optional;
 public class RateDao implements Dao<Rate> {
     private PreparedStatement statement;
 
-    private static final String RATE_TABLE_NAME = TableNames.RATE.name();
+    private static final String RATE_TABLE_NAME = TableNames.RATES.name();
     private static final String FIND_BY_ID = "select * from " + RATE_TABLE_NAME + " where id = ?";
     private static final String FIND_ALL = "select * from " + RATE_TABLE_NAME;
     private static final String INSERT = "insert into " + RATE_TABLE_NAME + " (user_id, book_id,score) values(?,?,?)";
@@ -22,14 +22,22 @@ public class RateDao implements Dao<Rate> {
 
     @Override
     public Optional<Rate> get(long id) {
+        Rate rate = Rate.builder().build();
         try {
             statement = DBConnection.getConnection().prepareStatement(FIND_BY_ID);
             statement.setLong(1, id);
             ResultSet res = statement.executeQuery();
+            while (res.next()) {
+                rate.setUserId(res.getLong("user_id"));
+                rate.setBookId(res.getLong("book_id"));
+                rate.setScore(res.getString("score"));
+                rate.setId(id);
+
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return Optional.empty();
+        return Optional.ofNullable(rate);
     }
 
     @Override
@@ -39,7 +47,7 @@ public class RateDao implements Dao<Rate> {
             statement = DBConnection.getConnection().prepareStatement(FIND_ALL);
             ResultSet res = statement.executeQuery();
             while (res.next()) {
-                Rate rate = new Rate();
+                Rate rate = Rate.builder().build();
                 rate.setId(res.getLong("id"));
                 rate.setUserId(res.getLong("user_id"));
                 rate.setBookId(res.getLong("book_id"));
@@ -77,7 +85,7 @@ public class RateDao implements Dao<Rate> {
             statement.setLong(1, rate.getUserId());
             statement.setLong(2, rate.getBookId());
             statement.setString(3, rate.getScore());
-            statement.setLong(4, rate.getId());
+            statement.setLong(4, id);
 
             int res = statement.executeUpdate();
             return res;
