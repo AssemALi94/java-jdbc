@@ -1,5 +1,6 @@
 package com.jdbc.dao;
-import com.jdbc.Book;
+
+import com.jdbc.model.Book;
 import com.jdbc.utility.DBConnection;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
