@@ -11,7 +11,7 @@ public interface Dao<T> {
 
     int save(T t);
 
-    int update(T t, long id);
+    int update(T t);
 
     int delete(long id);
 }

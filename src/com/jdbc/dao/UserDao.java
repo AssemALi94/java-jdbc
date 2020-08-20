@@ -94,7 +94,7 @@ public class UserDao implements Dao<User> {
     }
 
     @Override
-    public int update(User user, long id) {
+    public int update(User user) {
         try {
             statement = DBConnection.getConnection().prepareStatement(UPDATE);
             statement.setString(1, user.getFirstName());
@@ -102,7 +102,7 @@ public class UserDao implements Dao<User> {
             statement.setString(3, user.getEmail());
             statement.setString(4, user.getPassword());
             statement.setLong(5, user.getRoleId());
-            statement.setLong(6, id);
+            statement.setLong(6, user.getId());
             int res = statement.executeUpdate();
             return res;
         } catch (SQLException e) {

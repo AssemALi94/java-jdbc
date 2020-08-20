@@ -4,6 +4,7 @@ import com.jdbc.model.Lending;
 import com.jdbc.utility.DBConnection;
 import lombok.Builder;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -34,8 +35,8 @@ public class LendingDao implements Dao<Lending> {
                 lending.setBookId(res.getLong("book_id"));
                 lending.setBorrowerId(res.getLong("borrower_id"));
                 lending.setStaffId(res.getLong("staff_id"));
-                lending.setLendDate(res.getString("lend_date"));
-                lending.setReturnDate(res.getString("return_date"));
+                lending.setLendDate(res.getDate("lend_date"));
+                lending.setReturnDate(res.getDate("return_date"));
                 lending.setBookStatus(res.getBoolean("book_status"));
                 lending.setId(id);
 
@@ -61,8 +62,8 @@ public class LendingDao implements Dao<Lending> {
                 lend.setBookId(res.getLong("book_id"));
                 lend.setBorrowerId(res.getLong("borrower_id"));
                 lend.setStaffId(res.getLong("staff_id"));
-                lend.setLendDate(res.getString("lend_date"));
-                lend.setReturnDate(res.getString("return_date"));
+                lend.setLendDate(res.getDate("lend_date"));
+                lend.setReturnDate(res.getDate("return_date"));
                 lend.setBookStatus(res.getBoolean("book_status"));
 
                 lending.add(lend);
@@ -80,8 +81,8 @@ public class LendingDao implements Dao<Lending> {
             statement.setLong(1, lending.getBookId());
             statement.setLong(2, lending.getBorrowerId());
             statement.setLong(3, lending.getStaffId());
-            statement.setString(4, lending.getLendDate());
-            statement.setString(5, lending.getReturnDate());
+            statement.setDate(4, new Date(System.currentTimeMillis()));
+            statement.setDate(5, new Date(System.currentTimeMillis()));
             statement.setBoolean(6,lending.isBookStatus());
             int res = statement.executeUpdate();
             return res;
@@ -94,17 +95,17 @@ public class LendingDao implements Dao<Lending> {
     }
 
     @Override
-    public int update(Lending lending, long id) {
+    public int update(Lending lending) {
         try {
             statement = DBConnection.getConnection().prepareStatement(UPDATE);
 
             statement.setLong(1, lending.getBookId());
             statement.setLong(2, lending.getBorrowerId());
             statement.setLong(3, lending.getStaffId());
-            statement.setString(4, lending.getLendDate());
-            statement.setString(5, lending.getReturnDate());
+//            statement.setDate(4, new Date(System.currentTimeMillis()));
+//            statement.setDate(5, new Date(System.currentTimeMillis()));
             statement.setBoolean(6, lending.isBookStatus());
-            statement.setLong(7, id);
+            statement.setLong(7, lending.getId());
 
             int res = statement.executeUpdate();
             return res;

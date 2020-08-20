@@ -77,11 +77,11 @@ public class RoleDao implements Dao<Role> {
     }
 
     @Override
-    public int update(Role role, long id) {
+    public int update(Role role) {
         try {
             statement = DBConnection.getConnection().prepareStatement(UPDATE);
             statement.setString(1, role.getRole());
-            statement.setLong(2, id);
+            statement.setLong(2, role.getId());
 
             int res = statement.executeUpdate();
             return res;

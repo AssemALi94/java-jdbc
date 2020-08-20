@@ -79,13 +79,13 @@ public class RateDao implements Dao<Rate> {
     }
 
     @Override
-    public int update(Rate rate, long id) {
+    public int update(Rate rate) {
         try {
             statement = DBConnection.getConnection().prepareStatement(UPDATE);
             statement.setLong(1, rate.getUserId());
             statement.setLong(2, rate.getBookId());
             statement.setString(3, rate.getScore());
-            statement.setLong(4, id);
+            statement.setLong(4, rate.getId());
 
             int res = statement.executeUpdate();
             return res;

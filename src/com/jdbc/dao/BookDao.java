@@ -25,14 +25,22 @@ public class BookDao implements Dao<Book> {
 
     @Override
     public Optional<Book> get(long id) {
+        Book book = Book.builder().build();
         try {
             statement = DBConnection.getConnection().prepareStatement(FIND_BY_ID);
             statement.setLong(1, id);
             ResultSet res = statement.executeQuery();
+            while (res.next()) {
+                book.setId(id);
+                book.setTitle(res.getString("title"));
+                book.setAuthor(res.getString("author"));
+
+
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return Optional.empty();
+        return Optional.ofNullable(book);
     }
 
     @Override
@@ -74,7 +82,7 @@ public class BookDao implements Dao<Book> {
     }
 
     @Override
-    public int update(Book book, long id) {
+    public int update(Book book) {
         try {
             statement = DBConnection.getConnection().prepareStatement(UPDATE);
             statement.setString(1, book.getTitle());

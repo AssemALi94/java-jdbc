@@ -4,6 +4,8 @@ package com.jdbc.model;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.Date;
+
 @Builder
 @Data
 public class Lending {
@@ -12,8 +14,8 @@ public class Lending {
     private long bookId;
     private long borrowerId;
     private long staffId;
-    private String lendDate;
-    private String returnDate;
+    private Date lendDate;
+    private Date returnDate;
     private boolean bookStatus;
 
 
